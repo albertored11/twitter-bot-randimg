@@ -1,0 +1,10 @@
+[Unit]
+# Change description if desired
+Description=Tweet random image every 30 minutes
+
+[Timer]
+# Starts service at *:00 and *:30 hours, change if desired
+OnCalendar=*:0/30
+
+[Install]
+WantedBy=timers.target

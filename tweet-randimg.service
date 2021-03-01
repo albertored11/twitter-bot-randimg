@@ -1,0 +1,12 @@
+[Unit]
+# Change description if desired
+Description=Tweet random image
+
+[Service]
+Type=oneshot
+# Change ExecStart in order to point to the correct path for the script
+ExecStart=/usr/local/bin/tweet-randimg
+Environment="HOME=/root"
+
+[Install]
+WantedBy=multi-user.target
