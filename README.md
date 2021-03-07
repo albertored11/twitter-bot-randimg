@@ -90,6 +90,7 @@ Set up the systemd timer so tweets are posted periodically:
 ## Ideas for future versions
 
 - Switch from jshon to [jq](https://stedolan.github.io/jq/).
-- Remove images from server after being posted.
+- Remove images from server after being posted (as an option).
+- Include help message and options in bash script.
 
 Any suggestions are appreciated!
