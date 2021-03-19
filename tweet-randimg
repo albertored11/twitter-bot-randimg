@@ -9,7 +9,7 @@ exit 1
 # tw_user= # twitter username
 # image_dir= # directory where images are stored
 
-frame=$(find ${image_dir} -type f | shuf -n 1)
-media_id=$(twurl -u ${tw_user} -X POST -H upload.twitter.com "/1.1/media/upload.json?media_category=TWEET_IMAGE" -f ${frame} -F media | jshon -e media_id)
+frame="$(find "$image_dir" -type f | shuf -n 1)"
+media_id="$(twurl -u $tw_user -X POST -H upload.twitter.com "/1.1/media/upload.json?media_category=TWEET_IMAGE" -f "$frame" -F media | jshon -e media_id)"
 
-twurl -u ${tw_user} -d "media_ids=$media_id" /1.1/statuses/update.json > /dev/null
+twurl -u $tw_user -d "media_ids=$media_id" "/1.1/statuses/update.json" > /dev/null
