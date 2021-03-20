@@ -53,7 +53,7 @@ replacing ```XXX``` with actual values.
 
 First, copy ```tweet-randimg```, a bash script that chooses a random image and posts it to your Twitter account, to a directory found in root's ```$PATH``` (e. g. ```/usr/local/bin```).
 
-Then, copy ```tweet-randimg.service``` and ```tweet-randimg.timer```, the systemd timer that will run the script every 30 minutes and its corresponding service unit, to ```/etc/systemd/system```. Read the comments and modify them to your needs. It is necessary to specify mandatory options for the script (```--user``` and ```--image-dir```).
+Then, copy ```tweet-randimg.service``` and ```tweet-randimg.timer```, the systemd timer that will run the script every 30 minutes and its corresponding service unit, to ```/etc/systemd/system```. Read the comments and modify them to your needs. It is necessary to specify mandatory arguments for the script (```--user``` and ```--image-dir```).
 
 #### Test
 
