@@ -1,15 +1,58 @@
 #!/usr/bin/env bash
 
-# IMPORTANT: make sure you have installed necessary dependencies (twurl, jshon)
-# HOWTO: Set tw_user and image_dir variables (don't forget to uncomment), then remove two next lines
+usage() {
 
-echo "Set tw_user and image_dir variables before using this script!" >&2
+printf "%s" "\
+usage: $(basename "$0") --user USER --image-dir IMAGE_DIR [options]
+
+Options:
+    -u, --user      twitter username.
+    -i, --image-dir directory where images are stored.
+    -h, --help      show this help message and exit.
+
+"
 exit 1
 
-# tw_user= # twitter username
-# image_dir= # directory where images are stored
+}
 
-frame="$(find "$image_dir" -type f | shuf -n 1)"
-media_id="$(twurl -u $tw_user -X POST -H upload.twitter.com "/1.1/media/upload.json?media_category=TWEET_IMAGE" -f "$frame" -F media | jshon -e media_id)"
+get_args() {
 
-twurl -u $tw_user -d "media_ids=$media_id" "/1.1/statuses/update.json" > /dev/null
+    while [[ "$1" ]]; do
+        case $1 in
+            "-u" | "--user") user="$2" ;;
+            "-i" | "--image-dir") image_dir="$2" ;;
+            "-h" | "--help") usage ;;
+        esac
+        shift
+    done
+
+}
+
+check_args() {
+
+    [[ ! "$user" || ! "$image_dir" ]] && usage
+
+}
+
+upload_img() {
+
+    frame="$(find "$image_dir" -type f | shuf -n 1)"
+    media_id="$(twurl -u "$user" -X POST -H upload.twitter.com \
+        "/1.1/media/upload.json?media_category=TWEET_IMAGE" -f "$frame" -F media | \
+        jshon -e media_id)"
+
+    twurl -u "$user" -d "media_ids=$media_id" "/1.1/statuses/update.json" > /dev/null
+
+}
+
+main() {
+
+    get_args "$@"
+    check_args
+    upload_img
+
+    return 0
+
+}
+
+main "$@"

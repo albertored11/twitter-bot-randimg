@@ -51,18 +51,16 @@ replacing ```XXX``` with actual values.
 
 #### Copy files
 
-Rename files if you plan to run several bots in the same server.
+First, copy ```tweet-randimg```, a bash script that chooses a random image and posts it to your Twitter account, to a directory found in root's ```$PATH``` (e. g. ```/usr/local/bin```).
 
-First, copy ```tweet-randimg```, a bash script that chooses a random image and posts it to your Twitter account, to a directory found in root's ```$PATH``` (e. g. ```/usr/local/bin```) and edit this file following the instructions in the comments.
-
-Then, copy ```tweet-randimg.service``` and ```tweet-randimg.timer```, the systemd timer that will run the script every 30 minutes and its corresponding service unit, to ```/etc/systemd/system```. Read the comments and modify them to your needs.
+Then, copy ```tweet-randimg.service``` and ```tweet-randimg.timer```, the systemd timer that will run the script every 30 minutes and its corresponding service unit, to ```/etc/systemd/system```. Read the comments and modify them to your needs. It is necessary to specify mandatory options for the script (```--user``` and ```--image-dir```).
 
 #### Test
 
 To make sure everything works fine, run
 
 ```
-# tweet-randimg
+# tweet-randimg --user USER --image-dir IMAGE_DIR
 ```
 
 and, if it works, first run
@@ -89,9 +87,11 @@ Set up the systemd timer so tweets are posted periodically:
 
 ## Ideas for future versions
 
-- Switch from jshon to [jq](https://stedolan.github.io/jq/).
-- Remove images from server after being posted (as an option).
-- Include help message and options in bash script.
-- Add instructions for cron instead of systemd.timer.
+- [ ] Switch from jshon to [jq](https://stedolan.github.io/jq/).
+- [ ] Remove images from server after being posted (as an option).
+- [x] Include help message and options in bash script.
+- [ ] Add instructions for cron instead of systemd.timer.
+- [ ] Add option for generating systemd unit and service.
+- [ ] Create makefile.
 
 Any suggestions are appreciated!
