@@ -60,8 +60,10 @@ Then, copy ```tweet-randimg.service``` and ```tweet-randimg.timer```, the system
 To make sure everything works fine, run
 
 ```
-# tweet-randimg --user USER --image-dir IMAGE_DIR
+# tweet-randimg --image-dir <image_dir> [--user <user>]
 ```
+
+**Tip:** if you want the image file to be removed after posting, use option ```-r``` or ```--remove-image```.
 
 and, if it works, first run
 
@@ -88,11 +90,11 @@ Set up the systemd timer so tweets are posted periodically:
 ## Ideas for future versions
 
 - [ ] Switch from jshon to [jq](https://stedolan.github.io/jq/).
-- [ ] Remove images from server after being posted (as an option).
+- [x] Remove images from server after being posted (as an option).
 - [x] Include help message and options in bash script.
 - [ ] Add instructions for cron instead of systemd.timer.
 - [ ] Add option for generating systemd unit and service.
 - [ ] Create makefile.
-- [ ] Make ```--user``` argument optional (if not provided, use default twurl user).
+- [x] Make ```--user``` argument optional (if not provided, use default twurl user).
 
 Any suggestions are appreciated!

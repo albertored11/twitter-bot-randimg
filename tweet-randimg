@@ -3,12 +3,15 @@
 usage() {
 
 printf "%s" "\
-usage: $(basename "$0") --user USER --image-dir IMAGE_DIR [options]
+usage: $(basename "$0") <mandatory-arguments> [options]
+
+Mandatory arguments:
+    -i, --image-dir <image_dir> directory where images are stored.
 
 Options:
-    -u, --user      twitter username.
-    -i, --image-dir directory where images are stored.
-    -h, --help      show this help message and exit.
+    -h, --help                  show this help message and exit.
+    -r, --remove-image          remove image file after posting.
+    -u, --user <user>           twitter username (if not provided, twurl default will be used).
 
 "
 exit 1
@@ -17,31 +20,66 @@ exit 1
 
 get_args() {
 
-    while [[ "$1" ]]; do
-        case $1 in
-            "-u" | "--user") user="$2" ;;
-            "-i" | "--image-dir") image_dir="$2" ;;
-            "-h" | "--help") usage ;;
+    TEMP=$(getopt \
+        -l 'image-dir:,user:,help,remove-image' \
+        -o 'i:u:hr' \
+        -n "$(basename "$0")" \
+        -- "$@") || exit 1
+
+    eval set -- "$TEMP"
+    unset TEMP
+
+    while true; do
+        case "$1" in
+            '-i' | '--image-dir')
+                image_dir="$2"
+                shift 2
+                continue
+            ;;
+            '-u' | '--user')
+                user="$2"
+                shift 2
+                continue
+            ;;
+            '-h' | '--help')
+                usage
+            ;;
+            '-r' | '--remove-image')
+                remove_image=1
+                shift
+                continue
+            ;;
+            '--')
+                shift
+                break
+            ;;
+            *)
+                printf 'error' >&2
+                exit 1
+            ;;
         esac
-        shift
     done
 
 }
 
 check_args() {
 
-    [[ ! "$user" || ! "$image_dir" ]] && usage
+    [[ "$image_dir" ]] || usage
 
 }
 
 upload_img() {
 
+    [[ "$user" ]] && user="-u$user"
+
     frame="$(find "$image_dir" -type f | shuf -n 1)"
-    media_id="$(twurl -u "$user" -X POST -H upload.twitter.com \
+    media_id="$(twurl "$user" -X POST -H upload.twitter.com \
         "/1.1/media/upload.json?media_category=TWEET_IMAGE" -f "$frame" -F media | \
         jshon -e media_id)"
 
-    twurl -u "$user" -d "media_ids=$media_id" "/1.1/statuses/update.json" > /dev/null
+    twurl "$user" -d "media_ids=$media_id" "/1.1/statuses/update.json" > /dev/null
+
+    [[ "$remove_image" ]] && rm -f "$frame"
 
 }
 
