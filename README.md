@@ -93,5 +93,6 @@ Set up the systemd timer so tweets are posted periodically:
 - [ ] Add instructions for cron instead of systemd.timer.
 - [ ] Add option for generating systemd unit and service.
 - [ ] Create makefile.
+- [ ] Make ```--user``` argument optional (if not provided, use default twurl user).
 
 Any suggestions are appreciated!
