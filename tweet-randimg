@@ -70,7 +70,7 @@ check_args() {
 upload_img() {
 
     if ! twurl accounts &>/dev/null; then
-        echo "error: twurl has no registered accounts" >&2
+        printf "error: twurl has no registered accounts\n" >&2
         exit 1
     fi
 
