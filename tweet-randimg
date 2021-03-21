@@ -74,8 +74,6 @@ upload_img() {
         exit 1
     fi
 
-    exit 0
-
     [[ "$user" ]] && user="-u$user"
 
     frame="$(find "$image_dir" -type f | shuf -n 1)"
