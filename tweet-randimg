@@ -3,17 +3,16 @@
 usage() {
 
 printf "%s" "\
-usage: $(basename "$0") <mandatory-arguments> [options]
-
-Mandatory arguments:
-    -i, --image-dir <image_dir> directory where images are stored.
+usage: $(basename "$0") --image-dir <image_dir> [options]
 
 Options:
     -h, --help                  show this help message and exit.
+    -i, --image-dir <image_dir> directory where images are stored (required).
     -r, --remove-image          remove image file after posting.
     -u, --user <user>           twitter username (if not provided, twurl default will be used).
 
 "
+
 exit 1
 
 }
@@ -69,6 +68,13 @@ check_args() {
 }
 
 upload_img() {
+
+    if ! twurl accounts &>/dev/null; then
+        echo "error: twurl has no registered accounts" >&2
+        exit 1
+    fi
+
+    exit 0
 
     [[ "$user" ]] && user="-u$user"
 
