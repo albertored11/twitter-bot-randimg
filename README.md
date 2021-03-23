@@ -96,5 +96,6 @@ Set up the systemd timer so tweets are posted periodically:
 - [ ] Add option for generating systemd unit and service.
 - [ ] Create makefile.
 - [x] Make ```--user``` argument optional (if not provided, use default twurl user).
+- [ ] Check that chosen directory exists!
 
 Any suggestions are appreciated!
