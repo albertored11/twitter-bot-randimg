@@ -31,7 +31,7 @@ This bot was tested and works perfectly in a Raspberry Pi 4 as a server running 
 - bash, findutils, coreutils
 - systemd
 - [twurl](https://github.com/twitter/twurl): if you are using Arch Linux, just install [ruby-twurl](https://aur.archlinux.org/packages/ruby-twurl/), a package I sent to the AUR, else follow official installation instructions (either make sure ```twurl``` binary is in root's ```$PATH``` or modify ```tweet-randimg``` script so it uses full path).
-- [jshon](http://kmkeen.com/jshon/): available in most distro repos.
+- [jq](https://stedolan.github.io/jq/): available in most distro repos.
 
 #### Prepare your image files
 
@@ -89,7 +89,7 @@ Set up the systemd timer so tweets are posted periodically:
 
 ## Ideas for future versions
 
-- [ ] Switch from jshon to [jq](https://stedolan.github.io/jq/).
+- [x] Switch from jshon to [jq](https://stedolan.github.io/jq/).
 - [x] Remove images from server after being posted (as an option).
 - [x] Include help message and options in bash script.
 - [ ] Add instructions for cron instead of systemd.timer.
