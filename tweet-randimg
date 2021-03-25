@@ -63,26 +63,39 @@ get_args() {
 
 check_args() {
 
+    # image_dir is mandatory, print usage if not specified
     [[ "$image_dir" ]] || usage
+
+    # check that image_dir exists
+    if [[ ! -d "$image_dir" ]]; then
+        printf "error: directory %s does not exist\n" "$image_dir" >&2
+        exit 1
+    fi
 
 }
 
 upload_img() {
 
+    # check that twurl has at least one registered account
     if ! twurl accounts &>/dev/null; then
         printf "error: twurl has no registered accounts\n" >&2
         exit 1
     fi
 
+    # if user is specified, format option for twurl
     [[ "$user" ]] && user="-u$user"
 
+    # pick random file from image_dir
     frame="$(find "$image_dir" -type f | shuf -n 1)"
+    # upload image to twitter and assign media id to variable
     media_id="$(twurl "$user" -X POST -H upload.twitter.com \
         "/1.1/media/upload.json?media_category=TWEET_IMAGE" -f "$frame" -F media | \
         jq '."media_id_string"' | tr -d '"')"
 
+    # post image to twitter
     twurl "$user" -d "media_ids=$media_id" "/1.1/statuses/update.json" > /dev/null
 
+    # if remove_image is set, remove file
     [[ "$remove_image" ]] && rm -f "$frame"
 
 }
