@@ -79,7 +79,7 @@ upload_img() {
     frame="$(find "$image_dir" -type f | shuf -n 1)"
     media_id="$(twurl "$user" -X POST -H upload.twitter.com \
         "/1.1/media/upload.json?media_category=TWEET_IMAGE" -f "$frame" -F media | \
-        jshon -e media_id)"
+        jq '."media_id_string"' | tr -d '"')"
 
     twurl "$user" -d "media_ids=$media_id" "/1.1/statuses/update.json" > /dev/null
 
