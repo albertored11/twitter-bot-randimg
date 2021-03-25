@@ -68,7 +68,7 @@ check_args() {
 
     # check that image_dir exists
     if [[ ! -d "$image_dir" ]]; then
-        printf "error: directory %s does not exist\n" "$image_dir" >&2
+        printf "error: directory %s does not exist.\n" "$image_dir" >&2
         exit 1
     fi
 
@@ -78,7 +78,7 @@ upload_img() {
 
     # check that twurl has at least one registered account
     if ! twurl accounts &>/dev/null; then
-        printf "error: twurl has no registered accounts\n" >&2
+        printf "error: twurl has no registered accounts.\n" >&2
         exit 1
     fi
 

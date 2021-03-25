@@ -44,47 +44,67 @@ For my use case, I extracted frames from video files using ffmpeg and saved them
 You need to configure twurl in order to be able to post tweets to your account. Run (**as root**)
 
 ```
-# twurl authorize --consumer-key XXX --consumer-secret XXX
+twurl authorize --consumer-key XXX --consumer-secret XXX
 ```
 
 replacing ```XXX``` with actual values.
 
-#### Copy files
+#### Install script
 
-First, copy ```tweet-randimg```, a bash script that chooses a random image and posts it to your Twitter account, to a directory found in root's ```$PATH``` (e. g. ```/usr/local/bin```).
+Clone the repository:
 
-Then, copy ```tweet-randimg.service``` and ```tweet-randimg.timer```, the systemd timer that will run the script every 30 minutes and its corresponding service unit, to ```/etc/systemd/system```. Read the comments and modify them to your needs. It is necessary to specify mandatory arguments for the script (```--user``` and ```--image-dir```).
+```
+git clone https://github.com/albertored11/twitter-bot-randimg.git
+```
+
+change working directory to ```twitter-bot-randimg```:
+
+```
+cd twitter-bot-randimg
+```
+
+and finally install using Makefile (**as root**):
+
+```
+make install
+```
+
+You can uninstall the script running (**as root**) ```make uninstall```.
+
+#### Copy systemd unit files
+
+Copy ```tweet-randimg.service``` and ```tweet-randimg.timer```, the systemd timer that will run the script every 30 minutes and its corresponding service unit, to ```/etc/systemd/system```. Read the comments and modify them to your needs. It is necessary to specify mandatory arguments for the script (```--image-dir```).
 
 #### Test
 
-To make sure everything works fine, run
+To make sure everything works fine, run (**as root**)
 
 ```
-# tweet-randimg --image-dir <image_dir> [--user <user>]
+tweet-randimg --image-dir <image_dir> [--user <user>]
 ```
 
 **Tip:** if you want the image file to be removed after posting, use option ```-r``` or ```--remove-image```.
 
-and, if it works, first run
+and, if it works, first run (**as root**)
 
 ```
-# systemctl daemon-reload
+systemctl daemon-reload
 ```
 
-and then try the systemd service:
+and then try the systemd service (**as root**):
 
 ```
-# systemctl start tweet-randimg.service
+systemctl start tweet-randimg.service
 ```
 
 If this, again, works as intended, you are ready for the final step.
 
 #### Set up timer
 
-Set up the systemd timer so tweets are posted periodically:
+Set up the systemd timer so tweets are posted periodically (**as root**):
 
 ```
-# systemctl enable --now tweet-randimg.timer
+systemctl enable --now tweet-randimg.timer
 ```
 
 ## Ideas for future versions
@@ -93,8 +113,8 @@ Set up the systemd timer so tweets are posted periodically:
 - [x] Remove images from server after being posted (as an option).
 - [x] Include help message and options in bash script.
 - [ ] Add instructions for cron instead of systemd.timer.
-- [ ] Add option for generating systemd unit and service.
-- [ ] Create makefile.
+- [ ] Add option for generating systemd files.
+- [x] Create makefile.
 - [x] Make ```--user``` argument optional (if not provided, use default twurl user).
 - [x] Check that chosen directory exists!
 
