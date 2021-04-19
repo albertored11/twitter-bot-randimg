@@ -117,5 +117,6 @@ systemctl enable --now tweet-randimg.timer
 - [x] Create makefile.
 - [x] Make ```--user``` argument optional (if not provided, use default twurl user).
 - [x] Check that chosen directory exists!
+- [ ] Run everything as unprivileged user.
 
 Any suggestions are appreciated!
