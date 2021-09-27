@@ -118,5 +118,7 @@ systemctl enable --now tweet-randimg.timer
 - [x] Make ```--user``` argument optional (if not provided, use default twurl user).
 - [x] Check that chosen directory exists!
 - [ ] Run everything as unprivileged user.
+- [ ] Modify ```--remove-image``` option so it moves the file to another directory instead of removing it.
+- [ ] Create two separate scripts: one that posts an image to Twitter, and another one, user-made (with an example provided), that chooses an image file somehow and calls the first script.
 
 Any suggestions are appreciated!
