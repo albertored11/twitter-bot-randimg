@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 usage() {
-
 printf "%s" "\
 usage: $(basename "$0") --image-dir <image_dir> [options]
 
@@ -14,11 +13,9 @@ Options:
 "
 
 exit 1
-
 }
 
 get_args() {
-
     TEMP=$(getopt \
         -l 'image-dir:,user:,help,remove-image' \
         -o 'i:u:hr' \
@@ -58,11 +55,9 @@ get_args() {
             ;;
         esac
     done
-
 }
 
 check_args() {
-
     # image_dir is mandatory, print usage if not specified
     [[ "$image_dir" ]] || usage
 
@@ -71,11 +66,9 @@ check_args() {
         printf "error: directory %s does not exist.\n" "$image_dir" >&2
         exit 1
     fi
-
 }
 
 upload_img() {
-
     # check that twurl has at least one registered account
     if ! twurl accounts &>/dev/null; then
         printf "error: twurl has no registered accounts.\n" >&2
@@ -97,17 +90,14 @@ upload_img() {
 
     # if remove_image is set, remove file
     [[ "$remove_image" ]] && rm -f "$frame"
-
 }
 
 main() {
-
     get_args "$@"
     check_args
     upload_img
 
     return 0
-
 }
 
 main "$@"
