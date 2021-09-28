@@ -71,9 +71,7 @@ make install
 
 You can uninstall the script running (**as root**) ```make uninstall```.
 
-#### Copy systemd unit files
-
-Copy ```tweet-randimg.service``` and ```tweet-randimg.timer```, the systemd timer that will run the script every 30 minutes and its corresponding service unit, to ```/etc/systemd/system```. Read the comments and modify them to your needs. It is necessary to specify mandatory arguments for the script (```--image-dir```).
+systemd unit files will be installed too. Read the comments and modify them to your needs. It is necessary to specify mandatory arguments for the script (```--image-dir```).
 
 #### Test
 
